@@ -1,0 +1,49 @@
+{
+  "label": "SSD",
+  "threshold": 0.4313131313131313,
+  "feature_columns": [
+    "Age",
+    "Sex",
+    "BMI",
+    "phq15",
+    "haq21",
+    "cabah",
+    "bdi",
+    "bai"
+  ],
+  "outlier_bounds": {
+    "phq15": [
+      -22.5,
+      37.0
+    ],
+    "haq21": [
+      -46.0,
+      80.0
+    ],
+    "cabah": [
+      -12.5,
+      124.0
+    ],
+    "bdi": [
+      -46.0,
+      69.5
+    ],
+    "bai": [
+      -44.5,
+      64.0
+    ],
+    "Age": [
+      -16.0,
+      103.0
+    ],
+    "BMI": [
+      2.855566135734076,
+      43.65910664819944
+    ]
+  },
+  "files": {
+    "model": "SSD_best.joblib",
+    "scaler": "SSD_best_scaler.joblib",
+    "imputer": "SSD_best_imputer.joblib"
+  }
+}

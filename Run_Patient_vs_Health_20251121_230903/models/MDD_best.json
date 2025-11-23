@@ -1,0 +1,54 @@
+{
+  "label": "MDD",
+  "threshold": 0.4313131313131313,
+  "feature_columns": [
+    "Age",
+    "Sex",
+    "BMI",
+    "SDNN",
+    "LF",
+    "HF",
+    "LFHF",
+    "HRV_Mean",
+    "LF_HF_Ratio"
+  ],
+  "outlier_bounds": {
+    "SDNN": [
+      -44.5,
+      111.25
+    ],
+    "LF": [
+      -1082.25,
+      1740.5
+    ],
+    "HF": [
+      -808.25,
+      1246.25
+    ],
+    "LFHF": [
+      -4.785643582784391,
+      8.348244783862487
+    ],
+    "Age": [
+      -8.0,
+      90.0
+    ],
+    "BMI": [
+      1.7136196052360084,
+      44.34542013093055
+    ],
+    "HRV_Mean": [
+      -420.86511960261964,
+      708.6812916250417
+    ],
+    "LF_HF_Ratio": [
+      -4.785643339548906,
+      8.348244449047073
+    ]
+  },
+  "files": {
+    "model": "MDD_best.joblib",
+    "scaler": "MDD_best_scaler.joblib",
+    "imputer": "MDD_best_imputer.joblib"
+  }
+}

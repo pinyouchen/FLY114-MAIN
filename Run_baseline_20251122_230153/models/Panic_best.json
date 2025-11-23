@@ -1,0 +1,49 @@
+{
+  "label": "Panic",
+  "threshold": 0.43939393939393945,
+  "feature_columns": [
+    "Age",
+    "Sex",
+    "BMI",
+    "phq15",
+    "haq21",
+    "cabah",
+    "bdi",
+    "bai"
+  ],
+  "outlier_bounds": {
+    "phq15": [
+      -21.0,
+      35.0
+    ],
+    "haq21": [
+      -47.0,
+      82.5
+    ],
+    "cabah": [
+      -2.25,
+      115.0
+    ],
+    "bdi": [
+      -41.0,
+      64.0
+    ],
+    "bai": [
+      -49.0,
+      70.0
+    ],
+    "Age": [
+      -18.0,
+      104.5
+    ],
+    "BMI": [
+      4.110145893879043,
+      42.424048926690666
+    ]
+  },
+  "files": {
+    "model": "Panic_best.joblib",
+    "scaler": "Panic_best_scaler.joblib",
+    "imputer": "Panic_best_imputer.joblib"
+  }
+}

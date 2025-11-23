@@ -1,0 +1,54 @@
+{
+  "label": "GAD",
+  "threshold": 0.3909090909090909,
+  "feature_columns": [
+    "Age",
+    "Sex",
+    "BMI",
+    "SDNN",
+    "LF",
+    "HF",
+    "LFHF",
+    "HRV_Mean",
+    "LF_HF_Ratio"
+  ],
+  "outlier_bounds": {
+    "SDNN": [
+      -33.0,
+      100.0
+    ],
+    "LF": [
+      -1042.25,
+      1679.0
+    ],
+    "HF": [
+      -713.25,
+      1176.75
+    ],
+    "LFHF": [
+      -4.080532972084846,
+      7.211292586206492
+    ],
+    "Age": [
+      -19.0,
+      108.75
+    ],
+    "BMI": [
+      6.2638829078216,
+      40.43019687049216
+    ],
+    "HRV_Mean": [
+      -407.7376602232065,
+      701.5833911282149
+    ],
+    "LF_HF_Ratio": [
+      -4.080532919918698,
+      7.211292510406103
+    ]
+  },
+  "files": {
+    "model": "GAD_best.joblib",
+    "scaler": "GAD_best_scaler.joblib",
+    "imputer": "GAD_best_imputer.joblib"
+  }
+}

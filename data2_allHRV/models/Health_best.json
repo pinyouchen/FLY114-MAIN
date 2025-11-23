@@ -1,0 +1,99 @@
+{
+  "label": "Health",
+  "threshold": 0.44747474747474747,
+  "feature_columns": [
+    "Age",
+    "Sex",
+    "BMI",
+    "SDNN",
+    "LF",
+    "HF",
+    "LFHF",
+    "MEANH",
+    "TP",
+    "VLF",
+    "NLF",
+    "HRV_Mean",
+    "LF_HF_Ratio",
+    "Sympathetic_Index",
+    "Parasympathetic_Index",
+    "HF_TP_Ratio",
+    "SDNN_MEANH_Ratio",
+    "GAD_Risk"
+  ],
+  "outlier_bounds": {
+    "SDNN": [
+      -36.0,
+      104.0
+    ],
+    "LF": [
+      -966.5,
+      1609.5
+    ],
+    "HF": [
+      -761.5,
+      1195.0
+    ],
+    "LFHF": [
+      -4.6326006280331145,
+      8.058521267485013
+    ],
+    "MEANH": [
+      18.5,
+      134.0
+    ],
+    "TP": [
+      -3410.0,
+      5914.0
+    ],
+    "VLF": [
+      -1867.0,
+      3092.5
+    ],
+    "NLF": [
+      -55.79977367286157,
+      157.23993491687264
+    ],
+    "Age": [
+      -19.0,
+      107.0
+    ],
+    "BMI": [
+      3.785099097386709,
+      42.74795231362208
+    ],
+    "HRV_Mean": [
+      -830.762257997912,
+      1485.027326989169
+    ],
+    "LF_HF_Ratio": [
+      -4.674165334773462,
+      8.094534091917346
+    ],
+    "Sympathetic_Index": [
+      -0.3963568205438812,
+      1.5641401154066332
+    ],
+    "Parasympathetic_Index": [
+      -0.5602704266545206,
+      1.38490319556534
+    ],
+    "HF_TP_Ratio": [
+      -0.4027484827816178,
+      0.7597184545398108
+    ],
+    "SDNN_MEANH_Ratio": [
+      -0.6429275443921152,
+      1.5602405128118795
+    ],
+    "GAD_Risk": [
+      -1.7239467053061397,
+      2.9220983153073323
+    ]
+  },
+  "files": {
+    "model": "Health_best.joblib",
+    "scaler": "Health_best_scaler.joblib",
+    "imputer": "Health_best_imputer.joblib"
+  }
+}

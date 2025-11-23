@@ -1,0 +1,54 @@
+{
+  "label": "Health",
+  "threshold": 0.23737373737373738,
+  "feature_columns": [
+    "Age",
+    "Sex",
+    "BMI",
+    "SDNN",
+    "LF",
+    "HF",
+    "LFHF",
+    "HRV_Mean",
+    "LF_HF_Ratio"
+  ],
+  "outlier_bounds": {
+    "SDNN": [
+      -33.0,
+      100.0
+    ],
+    "LF": [
+      -980.5,
+      1623.5
+    ],
+    "HF": [
+      -736.25,
+      1166.0
+    ],
+    "LFHF": [
+      -5.085549490961174,
+      8.532516548600627
+    ],
+    "Age": [
+      -16.0,
+      103.0
+    ],
+    "BMI": [
+      3.281540319457278,
+      42.97765791398851
+    ],
+    "HRV_Mean": [
+      -375.69008906560134,
+      668.1745294147958
+    ],
+    "LF_HF_Ratio": [
+      -5.056562015647561,
+      8.500132598573023
+    ]
+  },
+  "files": {
+    "model": "Health_best.joblib",
+    "scaler": "Health_best_scaler.joblib",
+    "imputer": "Health_best_imputer.joblib"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "label": "Panic",
+  "threshold": 0.6171717171717171,
+  "feature_columns": [
+    "Age",
+    "Sex",
+    "BMI",
+    "SDNN",
+    "LF",
+    "HF",
+    "LFHF",
+    "HRV_Mean",
+    "LF_HF_Ratio"
+  ],
+  "outlier_bounds": {
+    "SDNN": [
+      -49.75,
+      120.0
+    ],
+    "LF": [
+      -1291.5,
+      2030.0
+    ],
+    "HF": [
+      -804.75,
+      1242.75
+    ],
+    "LFHF": [
+      -5.274385560675883,
+      9.017617127496159
+    ],
+    "Age": [
+      -18.75,
+      103.75
+    ],
+    "BMI": [
+      4.2583234241960675,
+      43.00578725049349
+    ],
+    "HRV_Mean": [
+      -498.26665966028094,
+      814.2322907118293
+    ],
+    "LF_HF_Ratio": [
+      -5.065601435908033,
+      8.749743904693226
+    ]
+  },
+  "files": {
+    "model": "Panic_best.joblib",
+    "scaler": "Panic_best_scaler.joblib",
+    "imputer": "Panic_best_imputer.joblib"
+  }
+}
