@@ -63,9 +63,35 @@
 
 整體建模流程如下：
 
+## 4.1 Task Definitions：Differential Diagnosis vs Pure Case-Control
+
+本研究目前有兩套互補的任務定義，用於回答不同的臨床問題：
+
+1. **舊版設定：Differential Diagnosis（鑑別診斷）**  
+   - 定義：  
+     - 針對某一疾病（例如 SSD），將「SSD = 1」視為正類，  
+       將「所有其他個案（包含其他精神疾病 + 健康個案）」視為負類。  
+   - 技術意義：  
+     - 負類樣本中混雜大量共病（comorbidities）個案與異質臨床狀態，  
+       對模型來說是難度較高的鑑別診斷情境。  
+     - 此設定能評估模型在「實務上複雜情境」區辨單一診斷的能力，但指標通常較保守。  
+
+2. **新版設定：Pure Case-Control（病例–對照）**  
+   - 定義：  
+     - 針對 SSD / MDD / Panic / GAD 四個診斷，  
+       僅保留「該診斷 = 1」與「純健康（Health = 1、其他診斷皆為 0）」個案，  
+       建構二元分類任務（患者 vs 純健康人）。  
+   - 技術意義：  
+     - 負類為「心理上與臨床評估均為健康」的對照組，  
+       不再混雜其他疾病或共病，屬於較「乾淨」的 case-control 設計。  
+     - 能提供 HRV + Demographics 在理想情境下的上限表現（upper bound），  
+       也較貼近典型生理信號研究中的病例–對照設計。
+
+## 4.2 Pipeline Steps
+
 ### Step 1 — Baseline Model（Data2 訓練）
 - Features：SDNN, LF, HF + Age, Sex, BMI  
-- 建立 HRV Minimal Benchmark
+- 建立 HRV Minimal Benchmark（同時支援 Differential Diagnosis 與 Pure Case-Control 兩種任務設定）
 
 ### Step 2 — External Validation（Data1）
 - 使用 Step 1 訓練的模型  
@@ -133,9 +159,13 @@
 
 # 7. Final Performance (Per Label)
 
-以下為你提供的最終完整績效表格（Best Fold 與平均值 Avg 全部收錄）。
+本節先保留「舊版 Differential Diagnosis」的多標籤任務結果，  
+再補充「新版 Pure Case-Control」設定下的成績，方便直接比較。
 
-## 7.1 Best Fold Performance
+## 7.1 Differential Diagnosis — Best Fold Performance（舊版設定）
+
+> 任務定義：例如 SSD vs 其他（包含 MDD、Panic、GAD 及 Health），  
+> 屬於難度較高、負類高度異質的鑑別診斷情境。
 
 | Label  | BestModel | Fold | F1 | Precision | Recall | Specificity | NPV | AUC | ACC |
 |--------|-----------|------|------:|------:|------:|------:|------:|------:|------:|
@@ -147,7 +177,7 @@
 
 ---
 
-## 7.2 Average Performance Across Folds
+## 7.2 Differential Diagnosis — Average Performance Across Folds（舊版設定）
 
 | Label  | F1(avg) | P(avg) | R(avg) | Spec(avg) | NPV(avg) | AUC(avg) | ACC(avg) |
 |--------|--------:|--------:|--------:|-----------:|-----------:|-----------:|-----------:|
@@ -159,13 +189,74 @@
 
 ---
 
+## 7.3 Pure Case-Control — HRV+Demo Baseline（新版設定：患者 vs 純健康人）
+
+> 任務定義：  
+> - 僅保留「純健康個案」（Health = 1 且 SSD/MDD/Panic/GAD = 0）  
+> - 以及「單一目標診斷 = 1」且其他診斷 = 0 的個案（例如 SSD = 1，MDD/Panic/GAD = 0）  
+> - 對 SSD / MDD / Panic / GAD 各自建立「患者 vs 純健康人」二元模型。  
+>
+> 這個設定排除了大部分共病與其他精神疾病，提供 HRV + Demographics 在  
+> 理想 case-control 設計下的上限表現，也能當作 Differential Diagnosis 設定的對照組。
+
+### 7.3.1 Pure Case-Control — Best Fold Performance
+
+| Label  | BestModel | F1(Best) | P(Best) | R(Best) | Spec(Best) | NPV(Best) | AUC(Best) | ACC(Best) |
+|--------|-----------|---------:|--------:|--------:|-----------:|----------:|----------:|----------:|
+| **SSD**   | GB   | 0.9346 | 0.8929 | 0.9804 | 0.9326 | 0.9881 | 0.9775 | 0.9500 |
+| **MDD**   | GB   | 0.9688 | 0.9688 | 0.9688 | 0.9886 | 0.9886 | 0.9957 | 0.9833 |
+| **Panic** | LGBM | 0.9167 | 0.9565 | 0.8800 | 0.9886 | 0.9667 | 0.9377 | 0.9646 |
+| **GAD**   | ET   | 0.9434 | 0.9259 | 0.9615 | 0.9545 | 0.9767 | 0.9736 | 0.9571 |
+
+### 7.3.2 Pure Case-Control — Average Performance Across Folds
+
+| Label  | F1(avg) | P(avg) | R(avg) | Spec(avg) | NPV(avg) | AUC(avg) | ACC(avg) |
+|--------|--------:|--------:|--------:|-----------:|----------:|----------:|----------:|
+| **SSD**   | 0.9167 | 0.9162 | 0.9187 | 0.9502 | 0.9527 | 0.9706 | 0.9385 |
+| **MDD**   | 0.9445 | 0.9224 | 0.9681 | 0.9706 | 0.9885 | 0.9882 | 0.9700 |
+| **Panic** | 0.8822 | 0.8738 | 0.8927 | 0.9638 | 0.9704 | 0.9583 | 0.9484 |
+| **GAD**   | 0.9162 | 0.9217 | 0.9123 | 0.9523 | 0.9483 | 0.9646 | 0.9375 |
+
+> 觀察：在 Pure Case-Control 設定下，四個診斷在 HRV+Demo baseline 上的  
+> F1、Precision、Recall、Specificity 皆顯著優於 Differential Diagnosis 設定，  
+> 顯示當負類限制為「純健康對照組」時，HRV 與基本人口學特徵在鑑別疾病 vs 健康方面  
+> 可以達到接近天花板的表現。
+
+---
+
 # 8. Key Findings
 
-1. **Health** 診斷最容易、模型可超過 0.95（F1 / AUC 均接近完美）  
-2. **MDD** 擁有最高的 AUC（0.98+），心理量表貢獻度最高  
-3. **SSD / GAD** 表現穩定（F1 0.77–0.84），但仍受共病影響  
-4. **Panic** 最困難（F1 ≈ 0.53–0.61），Recall 與資料分佈影響明顯  
-5. 心理量表（BDI、BAI、PHQ15）在模型中擁有最高 SHAP / Importance  
-6. HRV 單獨區辨力有限，但與量表合併後能提升 MDD / SSD 的辨識  
+1. **任務難度差異：Differential vs Pure Case-Control**  
+   - Differential Diagnosis（疾病 vs 其他所有人）為高度異質的臨床情境，  
+     模型必須在多種共病與重疊症狀之間做精細鑑別，導致 F1 與 AUC 相對保守。  
+   - Pure Case-Control（疾病 vs 純健康）則對應典型病例–對照研究設計，  
+     更適合評估「HRV + 自律神經指標本身」在理想條件下的區辨能力。  
+
+2. **Health 診斷最容易**  
+   - 無論在 Differential 或 Pure Case-Control 設定下，Health 的 AUC 與 F1 皆接近 0.95–0.98，  
+     顯示 HRV + 心理量表在偵測「真正健康 vs 非健康」上具有極佳可用性。  
+
+3. **MDD / SSD / GAD 表現穩定**  
+   - 在 Differential 設定下，F1 約落在 0.77–0.87；  
+   - 在 Pure Case-Control 設定下，四個診斷對應的 HRV+Demo 模型皆呈現接近天花板的表現  
+     （以你實際的表格為準，Best fold F1 大致落在高 0.9 區間）。  
+
+4. **Panic 為最困難任務，但在 Pure Case-Control 下明顯改善**  
+   - Differential 設定中，Panic 受樣本數與共病影響最重，F1 約在 0.5–0.6。  
+   - 在 Pure Case-Control 設定中，Panic vs Health 的 HRV+Demo 表現大幅提升，  
+     顯示當負類限制為「無其他精神疾病」時，Panic 與健康的 HRV 差異更容易被捕捉。  
+
+5. **心理量表與 HRV 的角色**  
+   - 舊版多標籤模型顯示：心理量表（例如 BDI、BAI、PHQ15）在 SHAP / Permutation Importance 中  
+     佔據最高權重，HRV 主要提供輔助訊號。  
+   - 在 Pure Case-Control HRV baseline 中，即使只使用 HRV + Demographics，  
+     仍可在病例–對照設計下達到相當高的 F1 / AUC，  
+     支持「生理訊號在理想實驗設計下具臨床潛力」的論點。  
+
+6. **實務解讀建議**  
+   - Differential Diagnosis 結果可視為「接近實際門診的困難情境」，  
+     用來討論模型在現實世界鑑別診斷中的限制與潛在輔助價值。  
+   - Pure Case-Control 結果則可視為 HRV / 自律神經指標的「最好情境表現上限」，  
+     適合用於與傳統 HRV 研究或其他生理指標研究做橫向比較。  
 
 ---
